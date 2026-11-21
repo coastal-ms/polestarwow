@@ -17,14 +17,23 @@ For the initial snapshot, the guide Lua comes from the fork's checked-in compile
 
 ## Bring in upstream changes
 
-`origin` is the Coastal fork. `upstream` is `fitzforge/polestar`. When upstream publishes changes, fetch and inspect them from the development branch.
+`origin` is the Coastal fork. `upstream` is `fitzforge/polestar`. Before every
+Coastal push or release, check the original project's
+[public releases](https://github.com/fitzforge/polestar/releases) and fetch
+`upstream/next` to review the PRs already merged there.
 
 ```sh
-git fetch upstream next
-git log --right-only --cherry-pick --oneline HEAD...upstream/next
+git fetch --no-tags upstream next
+git rev-list --left-right --count coastal/dev...upstream/next
+git log --right-only --cherry-pick --oneline coastal/dev...upstream/next
 ```
 
-Bring in relevant fixes with cherry-picks, or merge `upstream/next` for a full baseline update. Verify the development build after integrating the changes. Record the upstream revision used for each release so later updates can be compared against it.
+Compare the latest applicable upstream release tag with `coastal/dev` as well.
+Review changes that affect the addon, generated guides or packaging before
+deciding how to integrate them. A merge preserves the published branch's
+history when taking a full upstream update. Cherry-pick selected fixes when a
+full update is unnecessary. Verify the development build after integration
+and record the upstream revision used for each Coastal release.
 
 ## Keep local releases and upstream work separate
 

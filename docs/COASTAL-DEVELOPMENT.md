@@ -29,11 +29,16 @@ git log --right-only --cherry-pick --oneline coastal/dev...upstream/next
 ```
 
 Compare the latest applicable upstream release tag with `coastal/dev` as well.
-Review changes that affect the addon, generated guides or packaging before
-deciding how to integrate them. A merge preserves the published branch's
-history when taking a full upstream update. Cherry-pick selected fixes when a
-full update is unnecessary. Verify the development build after integration
-and record the upstream revision used for each Coastal release.
+Before publishing, prepare a local branch from the work you want to share and
+rebase the Coastal commits onto the current `upstream/next`. Review the commits
+above that base and test the rebased build. Record the upstream revision used
+for each Coastal release.
+
+A local merge can be used to test an upstream update in WoW. The publishing
+branch should still carry the Coastal commits on top of upstream. If rebasing
+changes commits on an already-published ref, check the remote tip and get
+approval before replacing that history. Published release tags stay pinned
+to the commits they shipped.
 
 ## Keep local releases and upstream work separate
 

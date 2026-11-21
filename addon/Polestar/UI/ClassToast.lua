@@ -892,7 +892,8 @@ function CT.Place(animate)
 	local k = TS and TS.Scale("headsup") or 1
 	local place = CT.PlaceSetting()
 	f:SetScale((w:GetScale() or 1) * k)
-	f:SetFrameStrata(w:GetFrameStrata())
+	-- Keep the dungeon actions above minimap trays on the guide window's layer.
+	f:SetFrameStrata(CT.current.dungeon and "HIGH" or w:GetFrameStrata())
 	if place == "free" then
 		f:SetFrameLevel(w:GetFrameLevel())
 	else

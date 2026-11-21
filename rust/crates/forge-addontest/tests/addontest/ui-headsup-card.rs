@@ -108,6 +108,18 @@ fn a_fresh_install_draws_the_heads_up_card_in_the_house_looks_own_way() {
 	assert_eq!(out["compact"], false);
 }
 
+#[test]
+fn the_dungeon_card_uses_high_strata_and_the_next_class_card_inherits_the_guide_strata() {
+	let out = run(r#"
+		GF.frame:SetFrameStrata("MEDIUM")
+		CT.ShowCard({ dungeon = "deadmines", head = "DUNGEON", title = "Deadmines", quiet = true })
+		local dungeon = CT.frame:GetFrameStrata()
+		CT.Show(1506)
+		emit({ dungeon = dungeon, class = CT.frame:GetFrameStrata() })"#);
+	assert_eq!(out["dungeon"], "HIGH");
+	assert_eq!(out["class"], "MEDIUM");
+}
+
 // A skin built on the house look (here one registered with nothing of its own) gets none of the house look's own
 // touches: every part where 0.3.7 put it, the header over the title, the stripe.
 #[test]

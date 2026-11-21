@@ -25,3 +25,26 @@ git log --right-only --cherry-pick --oneline HEAD...upstream/next
 ```
 
 Bring in relevant fixes with cherry-picks, or merge `upstream/next` for a full baseline update. Verify the development build after integrating the changes. Record the upstream revision used for each release so later updates can be compared against it.
+
+## Keep local releases and upstream work separate
+
+Develop and commit on `coastal/dev`. The live addon uses `dist/CoastalPSGuides/`.
+To freeze a release, commit the changes you want included, then package that commit.
+
+```powershell
+. ./.ref/polestar-dev/enter.ps1
+python tools/coastal-release.py 0.1.0 --source HEAD
+git tag coastal-v0.1.0 HEAD
+```
+
+The ZIP and its checksum go in `dist/releases/0.1.0/`. The ZIP has its own Coastal
+release number and records the source commit and hashes of the locally built
+Codex and QuestDB. Keep those generated data folders with your release backups
+if you want to reproduce the build. The packaging command reads committed addon
+files and leaves your live staging directory alone. Use a new version for each
+release so the old ZIP stays available.
+
+For an upstream PR, start a separate branch at `upstream/next` and bring over
+only the changes intended for the original project. Review the resulting diff
+against `upstream/next` before publishing the PR branch. The Coastal packaging
+scripts, local releases and unrelated work stay on your local development branch.
